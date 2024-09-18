@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+*:not(.layui-btn),
+*:not(.layui-edge) {
+    /* border-color: #333 !important; */
+}
+.layui-input-block {
+    border-color: #333 !important;
+}
+.layui-btn {
+    border-color: transparent !important;
+}
+.layui-form-select dl {
+    border-color:#d2d2d2 !important;
+}
+.layui-form-select .layui-edge {
+    border-color: transparent !important;
+    border-top-color: #c2c2c2 !important;
+}
+
+.downloadModel000 {
+    border-radius: 12px;
+}
+.downloadModel000 .layui-layer-content {
+    padding: 48px;
+}
+.downloadModel001 .content {
+    width: 100%;
+}
+.downloadModel001 .content .container .iconfont_firstation {
+    font-size: 36px;
+    width: 36px;
+}
+.downloadModel001 .content .container .header .iconfont_firstation {
+    color: rgb(0,206,0);
+}
+.downloadModel001 .content .container .bodyer {
+    margin: 12px auto;
+}
+.downloadModel001 .content .container .bodyer .center {
+    margin: auto 12px;
+}
+.downloadModel001 .content .container .bodyer .iconfont_firstation {
+    color: rgb(206,206,206);
+}
+.downloadModel001 .content .container .bodyer .item {
+    font-size: 18px;
+    line-height: 1.75em;
+    letter-spacing: 3px;
+}
+.downloadModel001 .content .footer .item {
+    background: #ff7e21;
+    border-radius: 30px;
+    font-size: 16px;
+    color: white;
+    width: 50%;
+    padding: 6px 0px;
+    letter-spacing: 3px;
+}
