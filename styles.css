@@ -1,0 +1,170 @@
+/* 全局样式 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    line-height: 1.6;
+}
+
+a {
+    color: #ee781f;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 头部 */
+header {
+    background-image: url('header-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 2px solid #ee781f;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 700;
+    color: #ee781f;
+}
+
+header p {
+    margin: 5px 0;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+}
+
+/* 个人简介 */
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.about img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.about img:hover {
+    transform: scale(1.1);
+}
+
+.about p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFF;
+    max-width: 600px;
+}
+
+/* 社交媒体 */
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.social-media a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.social-media a:hover {
+    transform: scale(1.1);
+}
+
+.social-media img {
+    width: 20px;
+    height: 20px;
+}
+
+/* 导航链接 */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+nav a {
+    background-color: #222;
+    color: #ee781f;
+    padding: 15px 20px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+nav a:hover {
+    background-color: #ee781f;
+    color: #000;
+    transform: scale(1.05);
+}
+
+/* 页脚 */
+footer {
+    background-color: #111;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+/* 响应式设计 */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    nav a {
+        width: 90%;
+        font-size: 16px;
+    }
+
+    .about p {
+        font-size: 16px;
+    }
+
+    .social-media {
+        gap: 20px;
+    }
+}
