@@ -25,7 +25,7 @@ document.querySelector('.social-media a[href="#wechat"]').addEventListener('clic
     qrcode.style.borderRadius = '10px';
     qrcode.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
     qrcode.innerHTML = `
-        <img src="images/ziji.png" alt="微信二维码" style="width: 150px; height: 150px;">
+        <img src="ziji.png" alt="微信二维码" style="width: 150px; height: 150px;">
         <p style="text-align: center; color: #000; margin-top: 10px;">扫码添加微信</p>
     `;
     document.body.appendChild(qrcode);
