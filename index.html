@@ -3,47 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fangaxing</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <title>摄影师主页 - 图虫风格</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: #ff4e4e;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4e4e;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* 摄影师头部信息 - 剧中背景 */
+        .photographer-header {
+            position: relative;
+            padding: 100px 0;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .header-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+        
+        .header-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .profile-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .profile-info h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-info p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 16px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            margin: 0 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4e4e;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.3s;
+        }
+        
+        .social-link:hover {
+            color: #ff4e4e;
+        }
+        
+        .social-link i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        /* 作品展示 */
+        .portfolio-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .view-all {
+            color: #ff4e4e;
+            font-size: 14px;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .portfolio-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .portfolio-image, .portfolio-video-thumbnail {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .portfolio-video-thumbnail {
+            position: relative;
+        }
+        
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff4e4e;
+            font-size: 24px;
+            transition: all 0.3s;
+        }
+        
+        .portfolio-item:hover .video-play-button {
+            background-color: rgba(255, 78, 78, 0.9);
+            color: white;
+        }
+        
+        .portfolio-info {
+            padding: 15px;
+        }
+        
+        .portfolio-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .portfolio-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        /* 视频标签 */
+        .video-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 40px 0;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-media {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            background-color: #000;
+        }
+        
+        .modal-video {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+        
+        .modal-info {
+            padding: 25px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: #ff4e4e;
+        }
+        
+        .modal-description {
+            margin-bottom: 20px;
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        .modal-stats {
+            display: flex;
+            margin-bottom: 25px;
+        }
+        
+        .modal-stat {
+            margin-right: 30px;
+            color: #666;
+        }
+        
+        .modal-stat i {
+            margin-right: 5px;
+            color: #ff4e4e;
+        }
+        
+        /* 底部 */
+        .footer {
+            background-color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal-media, .modal-video {
+                max-height: 400px;
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .photographer-header {
+                padding: 80px 0;
+            }
+            
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-info h1 {
+                font-size: 28px;
+            }
+            
+            .stats {
+                flex-wrap: wrap;
+            }
+            
+            .stat-item {
+                margin: 10px;
+            }
+            
+            .social-links {
+                flex-wrap: wrap;
+            }
+            
+            .social-link {
+                margin: 10px;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links li {
+                margin-left: 15px;
+            }
+            
+            .modal-media, .modal-video {
+                max-height: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+    <!-- 使用Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-	<header>
-		<section class="about">
-			<img src="Touxiang.png" alt="头像">
-			<span>摄影/像师：房阿星</span>
-			<p>所在地：浙江·宁波</p>
-			<p>"我是一个摄影师，以替人摄影为生。你可以在墙上看见我的呼机号码，我什么都可以拍，婚礼、聚会、连你换衣服、上厕所、做爱都行。只要你付钱。不过，你要是不喜欢我拍的你，可别怪我，我早就跟你说过了，我的摄影机不撒谎。"</p>
-		</section>
-		<div class="social-media">
-			<a href="https://wpa.qq.com/msgrd?v=3&uin=137803669&site=qq&menu=yes" target="_blank">
-			<img src="QQ.png">
-			</a>
-		<a href="#wechat">
-		<img src="Weixin.png">
-		</a>
-        <a href="https://www.douyin.com/user/MS4wLjABAAAAHdp4GIKxTDfG3EdYI0ES0YGED9qyAd4Zj_N7s7oRImYiNJpQlHEKpIXZLKF2eIdd?from_tab_name=main" target="_blank">
-            <img src="Douyin.png">
-
-        </a>
-        <a href="https://space.bilibili.com/407708289?spm_id_from=333.33.0.0" target="_blank">
-            <img src="bilibili.png">
-
-        </a>
-    </div>
-    </header>
-
-    <nav>
-        <a href="https://example.com/projects">我的简历</a>
-        <a href="https://example.com/blog">我的博客</a>
-        <a href="https://example.com/portfolio">作品集</a>
-        <a href="https://example.com/contact">联系我</a>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">图虫</a>
+            <ul class="nav-links">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">发现</a></li>
+                <li><a href="#">活动</a></li>
+                <li><a href="#">教程</a></li>
+                <li><a href="#">社区</a></li>
+            </ul>
+        </div>
     </nav>
-
-    <footer>
-        <p>&copy; 2025 房阿星的个人站. 保留所有权利.</p>
+    
+    <!-- 摄影师头部信息 -->
+    <section class="photographer-header">
+        <div class="header-background"></div>
+        <div class="container profile-container">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="摄影师头像" class="avatar">
+            <div class="profile-info">
+                <h1>张摄影师</h1>
+                <p>专业人像摄影师 | 视觉中国签约摄影师 | 擅长人像、风光摄影，用镜头捕捉生活中的美好瞬间。作品曾发表于《国家地理》《摄影世界》等杂志。</p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1,258</div>
+                        <div class="stat-label">作品</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">58.6k</div>
+                        <div class="stat-label">粉丝</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3,245</div>
+                        <div class="stat-label">获赞</div>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fas fa-globe"></i> 个人网站</a>
+                    <a href="#" class="social-link"><i class="fab fa-weibo"></i> 微博</a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主要内容 -->
+    <main class="container">
+        <!-- 最新作品 -->
+        <section class="portfolio-section">
+            <div class="section-header">
+                <h2 class="section-title">最新作品</h2>
+                <a href="#" class="view-all">查看全部 <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="portfolio-grid">
+                <!-- 图片作品1 -->
+                <div class="portfolio-item" onclick="openModal('image', '音乐节之夜', 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', '拍摄于2022年草莓音乐节现场，捕捉了歌手与观众互动的精彩瞬间。使用索尼A7R4相机，85mm f/1.4镜头拍摄。')">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="作品1" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">音乐节之夜</h3>
+                        <div class="portfolio-meta">
+                            <span><i class="far fa-eye"></i> 1,245</span>
+                            <span><i class="far fa-heart"></i> 328</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 视频作品1 - 带缩略图 -->
+                <div class="portfolio-item" onclick="openModal('video', '城市延时', 'https://www.youtube.com/embed/7ZmJtYaUTa0', '一段记录城市从日落到华灯初上的延时摄影作品，拍摄历时3小时，后期使用Premiere Pro合成。')">
+                    <div class="portfolio-video-thumbnail">
+                        <img src="https://img.youtube.com/vi/7ZmJtYaUTa0/maxresdefault.jpg" alt="城市延时缩略图" class="portfolio-image">
+                        <div class="video-play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <span class="video-tag">视频</span>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">城市延时</h3>
+                        <div class="portfolio-meta">
+                            <span><i class="far fa-eye"></i> 3,542</span>
+                            <span><i class="far fa-heart"></i> 876</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片作品2 -->
+                <div class="portfolio-item" onclick="openModal('image', '湖畔晨曦', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', '清晨5点拍摄于杭州西湖，使用ND滤镜长曝光30秒，营造出湖面如镜的效果。')">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="作品2" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">湖畔晨曦</h3>
+                        <div class="portfolio-meta">
+                            <span><i class="far fa-eye"></i> 2,156</span>
+                            <span><i class="far fa-heart"></i> 542</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 视频作品2 - 带缩略图 -->
+                <div class="portfolio-item" onclick="openModal('video', '极光之旅', 'https://www.youtube.com/embed/lyEcUkD2Xls', '在冰岛拍摄的极光视频，使用索尼A7S3相机，ISO12800，f/2.8，15秒曝光。')">
+                    <div class="portfolio-video-thumbnail">
+                        <img src="https://img.youtube.com/vi/lyEcUkD2Xls/maxresdefault.jpg" alt="极光之旅缩略图" class="portfolio-image">
+                        <div class="video-play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <span class="video-tag">视频</span>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">极光之旅</h3>
+                        <div class="portfolio-meta">
+                            <span><i class="far fa-eye"></i> 5,321</span>
+                            <span><i class="far fa-heart"></i> 1,543</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片作品3 -->
+                <div class="portfolio-item" onclick="openModal('image', '秋日私语', 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', '秋季人像摄影，模特身着暖色系服装，与金黄的银杏叶形成和谐色调。使用反光板补光。')">
+                    <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="作品3" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">秋日私语</h3>
+                        <div class="portfolio-meta">
+                            <span><i class="far fa-eye"></i> 1,876</span>
+                            <span><i class="far fa-heart"></i> 421</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片作品4 -->
+                <div class="portfolio-item" onclick="openModal('image', '都市光影', 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80', '城市夜景摄影，利用长曝光捕捉车流轨迹，展现都市的动感与活力。')">
+                    <img src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="作品4" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">都市光影</h3>
+                        <div class="portfolio-meta">
+                            <span><i class="far fa-eye"></i> 3,245</span>
+                            <span><i class="far fa-heart"></i> 876</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 精选集 -->
+        <section class="portfolio-section">
+            <div class="section-header">
+                <h2 class="section-title">精选集</h2>
+                <a href="#" class="view-all">查看全部 <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="精选集1" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">四季风光</h3>
+                        <div class="portfolio-meta">
+                            <span>32张作品</span>
+                            <span><i class="far fa-heart"></i> 2,456</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1492681290082-e932832941e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="精选集2" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">音乐现场</h3>
+                        <div class="portfolio-meta">
+                            <span>18张作品</span>
+                            <span><i class="far fa-heart"></i> 1,876</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="精选集3" class="portfolio-image">
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">城市建筑</h3>
+                        <div class="portfolio-meta">
+                            <span>25张作品</span>
+                            <span><i class="far fa-heart"></i> 3,124</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 作品弹窗 -->
+    <div id="portfolioModal" class="modal">
+        <div class="modal-content">
+            <div id="modalMediaContainer">
+                <!-- 图片或视频将在这里动态加载 -->
+            </div>
+            <div class="modal-info">
+                <div class="modal-header">
+                    <h2 id="modalTitle" class="modal-title">作品标题</h2>
+                    <span class="modal-close" onclick="closeModal()">&times;</span>
+                </div>
+                <p id="modalDescription" class="modal-description">作品描述将在这里显示</p>
+                
+                <div class="modal-stats">
+                    <div class="modal-stat"><i class="far fa-eye"></i> 1,245 浏览</div>
+                    <div class="modal-stat"><i class="far fa-heart"></i> 328 喜欢</div>
+                    <div class="modal-stat"><i class="far fa-calendar"></i> 2023-05-15</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 图虫摄影社区 | 专业摄影师分享平台</p>
+            <p>联系邮箱: contact@tuchong.com</p>
+        </div>
     </footer>
-
+    
+    <script>
+        // 打开作品弹窗
+        function openModal(type, title, mediaSrc, description) {
+            const modal = document.getElementById('portfolioModal');
+            const mediaContainer = document.getElementById('modalMediaContainer');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            
+            // 清空媒体容器
+            mediaContainer.innerHTML = '';
+            
+            // 根据类型添加媒体内容
+            if (type === 'image') {
+                const img = document.createElement('img');
+                img.src = mediaSrc;
+                img.alt = title;
+                img.className = 'modal-media';
+                mediaContainer.appendChild(img);
+            } else if (type === 'video') {
+                const iframe = document.createElement('iframe');
+                iframe.src = mediaSrc;
+                iframe.className = 'modal-video';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                mediaContainer.appendChild(iframe);
+            }
+            
+            // 设置标题和描述
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            
+            // 显示弹窗
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 关闭作品弹窗
+        function closeModal() {
+            const modal = document.getElementById('portfolioModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // 点击弹窗外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('portfolioModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 </body>
-
 </html>
